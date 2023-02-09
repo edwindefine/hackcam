@@ -1,0 +1,5 @@
+result/*
+!result
+ip.txt
+Log.log
+saved_ip.txt

@@ -66,7 +66,7 @@ banner(){
 
     if [ $isCowsay -eq 1 ] && [ $isFortune -eq 1 ] && [ $isLolcat -eq 1 ];
         then
-            printf "\e[1;93mAuthor: Edwin\nYoutube : edwinify\nGithub : edwindefine\e[0m\n\n\e[1;93mOriginal source: hangetzzu/saycheese \e[0m\n\n" | ./bin/lolcat
+            printf "\e[1;93mAuthor: Edwin\nYoutube : edwinify\nGithub : edwindefine\e[0m\n\n\e[1;93mOriginal source: hangetzzu/saycheese \e[0m\n\n" | lolcat
         else
             printf "\e[1;93mAuthor: Edwin\nYoutube : edwinify\nGithub : edwindefine\e[0m\n\n\e[1;93mOriginal source: hangetzzu/saycheese \e[0m\n\n"
     fi
@@ -76,7 +76,7 @@ banner(){
 }
 
 dependencies(){
-    command -v php > /dev/null 2>&1 || { echo >&2 "This script require php, please install it. Aborting."; exit 1; }
+    command -v php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
 
 }
 
@@ -146,8 +146,6 @@ run(){
         run
     fi
 }
-
-chmod +x ./bin/*
 
 clear
 
