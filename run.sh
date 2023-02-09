@@ -149,6 +149,8 @@ run(){
 
 clear
 
+chmod +x ./ngrok
+
 banner
 dependencies
 run
