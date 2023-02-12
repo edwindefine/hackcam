@@ -7,10 +7,7 @@ Hack camera menggunakan HACKCAM
 ## Cara Install
 ```
 $pkg update && pkg upgrade
-$pkg install php
-$pkg install unzip
-$pkg install wget
-$pkg install curl
+$pkg install git
 $git clone https://github.com/edwindefine/hackcam
 $cd hackcam
 $chmod +x run.sh
