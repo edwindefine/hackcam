@@ -79,47 +79,47 @@ banner(){
 }
 
 dependencies(){
-    # command -v php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
-    # command -v unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
-    # command -v wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
-    # command -v curl > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan curl, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    command -v php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    command -v unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    command -v wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    command -v curl > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan curl, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
     
-    command -v php > /dev/null 2>&1 || { 
-        if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
-            then
-                pkg install php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall php, silakan install manual\e[0m\n"; exit 1; }
-            else
-                printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"
-                exit 1
-        fi
-    }
-    command -v unzip > /dev/null 2>&1 || { 
-        if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
-            then
-                pkg install unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall unzip, silakan install manual\e[0m\n"; exit 1; }
-            else
-                printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"
-                exit 1
-        fi
-    }
-    command -v wget > /dev/null 2>&1 || { 
-        if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
-            then
-                pkg install wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall wget, silakan install manual\e[0m\n"; exit 1; }
-            else
-                printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"
-                exit 1
-        fi
-    }
-    command -v curl > /dev/null 2>&1 || { 
-        if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
-            then
-                pkg install wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall curl, silakan install manual\e[0m\n"; exit 1; }
-            else
-                printf >&2 "\n\e[31m[!] Script ini memerlukan curl, silahkan install terlebih dahulu\e[0m\n"
-                exit 1
-        fi
-    }
+    # command -v php > /dev/null 2>&1 || { 
+    #     if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+    #         then
+    #             pkg install php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall php, silakan install manual\e[0m\n"; exit 1; }
+    #         else
+    #             printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"
+    #             exit 1
+    #     fi
+    # }
+    # command -v unzip > /dev/null 2>&1 || { 
+    #     if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+    #         then
+    #             pkg install unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall unzip, silakan install manual\e[0m\n"; exit 1; }
+    #         else
+    #             printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"
+    #             exit 1
+    #     fi
+    # }
+    # command -v wget > /dev/null 2>&1 || { 
+    #     if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+    #         then
+    #             pkg install wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall wget, silakan install manual\e[0m\n"; exit 1; }
+    #         else
+    #             printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"
+    #             exit 1
+    #     fi
+    # }
+    # command -v curl > /dev/null 2>&1 || { 
+    #     if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+    #         then
+    #             pkg install wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall curl, silakan install manual\e[0m\n"; exit 1; }
+    #         else
+    #             printf >&2 "\n\e[31m[!] Script ini memerlukan curl, silahkan install terlebih dahulu\e[0m\n"
+    #             exit 1
+    #     fi
+    # }
 }
 
 start_php(){
@@ -160,6 +160,8 @@ ngrok_setup(){
                     fi
             fi
     fi
+
+    chmod +x ./ngrok
 
     if ! [ -f "$HOME/.ngrok2/ngrok.yml" ]
         then
@@ -227,8 +229,6 @@ run(){
 }
 
 clear
-
-chmod +x ./ngrok
 
 banner
 dependencies
