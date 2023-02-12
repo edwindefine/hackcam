@@ -20,6 +20,9 @@
 # ─▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀
 # ▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄
 
+arch=$(uname -a | grep -o 'arm' | head -n1)
+arch2=$(uname -a | grep -o 'Android' | head -n1)
+
 save_ip() {
     ip=$(grep -a 'IP:' ip.txt | cut -d " " -f2 | tr -d '\r')
     IFS=$'\n'
@@ -77,8 +80,27 @@ banner(){
 
 dependencies(){
     command -v php > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan php, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
-    command -v unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
-    command -v wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    # command -v unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    # command -v wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"; exit 1; }
+    
+    command -v unzip > /dev/null 2>&1 || { 
+        if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+            then
+                pkg install unzip > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall unzip, silakan install manual\e[0m\n"; exit 1; }
+            else
+                printf >&2 "\n\e[31m[!] Script ini memerlukan unzip, silahkan install terlebih dahulu\e[0m\n"
+                exit 1
+        fi
+    }
+    command -v wget > /dev/null 2>&1 || { 
+        if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
+            then
+                pkg install wget > /dev/null 2>&1 || { printf >&2 "\n\e[31m[!] Gagal menginstall wget, silakan install manual\e[0m\n"; exit 1; }
+            else
+                printf >&2 "\n\e[31m[!] Script ini memerlukan wget, silahkan install terlebih dahulu\e[0m\n"
+                exit 1
+        fi
+    }
 }
 
 start_php(){
@@ -91,8 +113,6 @@ ngrok_setup(){
     if ! [[ -e ngrok ]] 
         then
             printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
-            arch=$(uname -a | grep -o 'arm' | head -n1)
-            arch2=$(uname -a | grep -o 'Android' | head -n1)
 
             if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] 
                 then
