@@ -163,7 +163,7 @@ ngrok_setup(){
 
     chmod +x ./ngrok
 
-    if ! [ -f "$HOME/.ngrok2/ngrok.yml" ]
+    if ! [ -f "$HOME/.ngrok2/ngrok.yml" ] 
         then
         read -p $'\e[36m[\e[0m\e[1;77m+\e[0m\e[36m] Masukan ngrok authtoken : \e[0m' ngrok_authtoken
         ./ngrok authtoken $ngrok_authtoken
